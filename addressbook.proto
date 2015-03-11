@@ -1,0 +1,72 @@
+syntax = "proto2";
+
+package tutorial;
+
+message Person {
+  required string name = 1;
+  required int32 id = 2;
+  optional string email = 3;
+
+  enum PhoneType {
+    MOBILE = 0;
+    HOME = 1;
+    WORK = 2;
+  }
+
+  message PhoneNumber {
+    required string number = 1;
+    optional PhoneType type = 2 [default = HOME];
+  }
+
+  repeated PhoneNumber phone = 4;
+}
+
+message AddressBook {
+  repeated Person person = 1;
+}
+
+message HelloRequest {
+  optional string name = 1;
+}
+
+message HelloReply {
+  optional string message = 1;
+}
+
+message AddressAddRequest {
+  optional Person person = 1;
+}
+
+message AddressAddReply {
+  optional string message = 1;
+}
+
+message DisplayAllAddressesRequest {
+}
+
+message DisplayAllAddressesReply {
+  repeated Person items = 1;
+}
+
+message SearchForAddressRequest {
+  optional string name = 1;
+  optional int32 id = 2;
+  optional string email = 3;
+}
+
+message SearchForAddressReply {
+  repeated Person items = 1;
+}
+
+message DeleteAllRequest {
+}
+
+message DeleteAllReply {
+}
+
+service Address {
+  rpc AddAddressEntry (AddressAddRequest) returns (AddressAddReply) {}
+  rpc DisplayAllAddresses (DisplayAllAddressesRequest) returns (DisplayAllAddressesReply) {}
+  rpc SearchForAddress (SearchForAddressRequest) returns (SearchForAddressReply) {}
+  rpc DeleteAll (DeleteAllRequest) returns (DeleteAllReply) {}
+}
